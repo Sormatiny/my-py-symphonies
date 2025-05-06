@@ -50,13 +50,29 @@ df = pd.read_sql("SELECT * FROM Account", conn)
 #print(df)
 df1 = str(df)
 #print("df1", df1)
-df2 = bytes(df1, encoding='utf8')
+df1 = bytes(df1, encoding='utf8')
 #print("df2", df2)
-df3 = cipher_suite.encrypt(df2)
-#df3 = df2.apply(lambda x: cipher_suite.encrypt(x))
+#df1 = cipher_suite.encrypt(df1)
+
+def cryptdf(df1):
+    return cipher_suite.encrypt(df1)
+
+df1 = cryptdf(df1)
+ButtonCrypt = cryptdf(df1)
+
+print("ButtonCrypt", df1)
+print("ButtonCrypt", type(df1))
+
 #print("df3", df3)
-df4 = cipher_suite.decrypt(df3)
+#df1 = cipher_suite.decrypt(df1)
+
+def DeCryptDF(ButtonCrypt):
+    return cipher_suite.decrypt(ButtonCrypt)
+
+df1 = DeCryptDF(df1)
+ButtonDeCrypt = df1
+
 #print("df4", df4)
 #print("typedf4", type(df4))
-df5 = df4.decode("utf-8")
-#print("df5", df5)
+df1 = df1.decode("utf-8")
+print("df1", df1)
