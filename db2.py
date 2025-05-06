@@ -5,7 +5,13 @@ from cryptography.fernet import Fernet
 import pandas as pd
 
 
-engine = create_engine('postgresql://myuser:123@localhost:5432/mydb') # коннектимся к базе_данных
+typedb = "postgresql" # дистрибутив базы данных
+server = "localhost" # хост
+port = "5432" # порт
+dbname = "mydb" # имя базы данных
+uname = "myuser" # имя пользователя базы данных
+pword = "123" # пароль
+engine = create_engine(typedb+"://"+uname+":"+pword+"@"+server+":"+port+"/"+dbname) # коннектимся к базе_данных
 # вводим имя_дистрибутива, имя пользователя базы данных, пароль пользователя базы данных, хост, порт хоста, имя базы данных
 session = Session(engine, future=True)
 conn = engine.connect()
@@ -16,11 +22,11 @@ key = b'OVfnNEp6wekaNckwGDt_MBdw2mL8f4DS-F3ETBTbQc0='
 key_file = open("key_file.txt", "w+")
 key_file.write(str(key))
 key_file.close()
-print(key)
+#print(key)
 
 with open('key_file.txt', 'r') as f:
     datakey = f.read()
-print(datakey)
+#print(datakey)
 #print(type(datakey))
 
 cipher_suite = Fernet(key) # шифратор
@@ -41,16 +47,16 @@ for row in r:
         #print("расшифрованное сообщение" ,plain_text)
 
 df = pd.read_sql("SELECT * FROM Account", conn)
-print(df)
+#print(df)
 df1 = str(df)
-print("df1", df1)
+#print("df1", df1)
 df2 = bytes(df1, encoding='utf8')
-print("df2", df2)
+#print("df2", df2)
 df3 = cipher_suite.encrypt(df2)
 #df3 = df2.apply(lambda x: cipher_suite.encrypt(x))
-print("df3", df3)
+#print("df3", df3)
 df4 = cipher_suite.decrypt(df3)
-print("df4", df4)
-print("typedf4", type(df4))
+#print("df4", df4)
+#print("typedf4", type(df4))
 df5 = df4.decode("utf-8")
-print("df5", df5)
+#print("df5", df5)
